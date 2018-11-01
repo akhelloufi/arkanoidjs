@@ -1,0 +1,184 @@
+	<!doctype html>
+<html lang="en">
+ <head>
+  <meta charset="UTF-8">
+  <meta name="Generator" content="EditPlus®">
+  <meta name="Author" content="">
+  <meta name="Keywords" content="">
+  <meta name="Description" content="">
+  <title>Keyup</title>
+ </head> 
+<script type="text/javascript">
+ function brique(id, x, y,obj) {
+  this.id = id;
+  this.x = x;
+  this.y = y;
+  this.obj=obj;
+}
+var br1=new brique("d1",0,10);
+var M=new Array();
+//alert("nnn"+br1.y);
+ </script>
+ <body   onkeydown="f(event);" id="body" style="background-image:url('d1.jpg');">
+  <input type="button" style="border-radius:25px;position:absolute;top:0%;left:75%;"value="stop" onclick="stop();">
+
+ <input type="button" style="border-radius:25px;position:absolute;top:0%;left:80%;"value="demarrer" onclick="move1();">
+<div src="bar.jpg" id="d1" class="" ondbclick="affecter(this.id);" style="position:absolute;border-radius:25px;;top:620px;left:50%;text-align:center;height:10px;width:200px;background:pink;">
+	 10
+</div> 
+<div id="d2" class="" style="border:2px solid  gray;position:absolute; z-index:100;border-radius:100%;top:0px;left:100px;text-align:center;height:50px;
+width:50px;background-image:url('b.jpg');background-position:60% 29%;">
+	20
+</div>
+<audio src="col1.wav" style="" id="col1">
+		Your browser does not support the audio element.
+	</audio>
+	<audio src="colbar.wav" style="" id="colbar">
+		Your browser does not support the audio element.
+	</audio>
+		<audio src="rire.mp3" style="" id="rire">
+		Your browser does not support the audio element.
+	</audio>
+<script>
+var t=650;
+var l=528; 
+var id="d1";
+var ty=document.getElementById(id);
+var t1=0;l1=0;
+var f1='';
+var i=0;
+var M=new Array();
+function init(){
+var body=document.body;var j=0;
+k=0;
+var c=0;
+for(j=1;j<=80;j=j+10){
+	for(k=1;k<=120;k=k+10){
+	var x = document.createElement("div");
+	i++;
+	x.setAttribute("id", "d"+i);
+
+	couleur='#e'+Math.ceil(Math.random()*5)+Math.ceil(Math.random()*6)+Math.ceil(Math.random()*7)+Math.ceil(Math.random()*8)+Math.ceil(Math.random()*9);
+	//alert(couleur);
+ 
+	x.setAttribute("style", "border:0px solid blue;margin:15px;position:absolute;top:"+j*5+"px;left:"+k*11+"px;height:25px;width:100px;--background:"+couleur+";border-radius:20px; background-image:url('d2.jpg');");
+	
+	 
+	//x.innerText="Ele id,y,x "+x.id+","+j*5+","+k*11;
+	var body=document.getElementById("body");
+	M[c]=new brique("d"+i,j*5,k*11,x);
+	c++;
+	body.appendChild(x);
+	} 
+	
+}
+}init();
+function f(e){
+	  var x = e.which || e.keyCode;
+	  var d=document.getElementById(id);
+	   var d2=document.getElementById("d2");
+
+	//div1
+		//if(e.keyCode==38){t=t-8;}
+		//if(e.keyCode==40){t=t+8;}
+		if(l<1024){if(e.keyCode==39){l=l+8;}}
+	if(l>0){
+		if(e.keyCode==37){l=l-8;}
+	}
+		
+		
+	//div2
+	if(e.keyCode==97){t1=t1-8;}
+		if(e.keyCode==98){t1=t1+8;}
+		if(e.keyCode==67){l1=l1-8;}
+		if(e.keyCode==66){l1=l1+8;}
+
+		if(e.keyCode==27){t=0;l=0;t1=100;l1=100;}//echap
+		  if(e.keyCode==46){d.style.display="none";d2.style.display="none";}//supprimer
+		//d.style.position="absolute";
+
+		
+		//d.style.top=t+"px";
+		d.style.left=l+"px";
+		 d.innerHTML="t="+t+"l="+l;
+		//d2.style.top=t1+"px";
+		//d2.style.left=l1+"px";
+		
+}
+	t1=0;
+	l1=0;
+	var b=true,b1=true,b2=true,b3=true,b4=true,perdu=false;
+function move1(){
+		 // var x = e.which || e.keyCode;
+		  var d2=document.getElementById("d2");
+		  var collision=0;
+
+
+		if(b==true&&b1==true&&b2==true&&b3==true&&b4==true){
+		t1=t1+2;
+		l1=l1+2;
+		}
+		
+		
+
+	 
+	  //verifier colision avec la barre
+	  if(t1>t-50&&t1<t+50){
+			if( l1>l&&l1<l+200){
+				//alert("collision barre");/**************************/
+				document.getElementById('colbar').play();	
+				b1=false;
+			}
+	  }
+	//mur droite
+	if(l1>1024){b2=false; 	}//mur droite
+	if(t1<=0){b3=false;}//en haut
+	if(l1<=2){b4=false;}//a gauche
+
+	  if(b1==false){t1=t1-2;l1=l1+4;}
+	  if(b2==false){t1=t1-1;l1=l1-8;}	
+	  if(b3==false){t1=t1+5;l1=l1-2;}//mur haut
+	  if(b4==false){t1=t1+2;l1=l1+2;}//mur gauche
+
+      //perte
+	  if(t1==700){ perdu=true;  document.getElementById('rire').play();t1=0;alert('PERDU');}
+	  if(l1==1350){perdu=true;document.getElementById('rire').play();l1=0;alert('PERDU');}
+	 
+		d2.innerHTML="t1="+t1+" l1="+l1;
+		d2.style.top=t1+"px";
+		d2.style.left=l1+"px";
+	//verifier colision de div2 avec les briques
+	detruireBrique(l1+10,t1+10);detruireBrique(l1-10,t1-10);
+	detruireBrique(l1,t1);detruireBrique(l1+10,t1-10);
+	detruireBrique(l1-10,t1+10);
+	if(perdu==false){
+		f1=setTimeout("move1()",10);
+	}
+}
+function detruireBrique(x,y){
+
+var l=0;
+for(l=0;l<M.length;l++){
+	var d=M[l].id;
+	var le=M[l].x;
+	var ti=M[l].y;
+	if(le>x-50&&le<x+50){
+		if(ti>y-50&&ti<y+50){
+			document.getElementById('d1').innerHTML="id="+d+"ti ="+ti+" y"+y+"le ="+le+" x"+x;
+			M[l].obj.style.display="none";
+			document.getElementById('col1').play();
+		}
+	
+	}
+}
+
+}
+function stop(){clearTimeout(f1);}
+function supprimer(id){    var x=document.getElementById(id);
+								x.display="none";
+		} 
+  </script>
+
+   
+ </body>
+</html>
